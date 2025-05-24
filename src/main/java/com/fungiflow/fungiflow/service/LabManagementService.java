@@ -30,23 +30,28 @@ public class LabManagementService {
     @Transactional
     //recording daily update from a mushroom batch
     public void recordDailyUpdate(DailyUpdateDTO dto) {
-        //throwing exception when the seed batch id is not found
         Optional<Seed> optionalSeed = seedRepository.findById(dto.getSeedId());
         if (!optionalSeed.isPresent()) {
             throw new RuntimeException("Batch not found for seedId: " + dto.getSeedId());
         }
 
-
         Seed seed = optionalSeed.get();
+        int remaining = seed.getInitialQuantity() -
+                (seed.getSuccessfulGrowth() + seed.getContaminatedCount());
 
-        //calculating the amount of cultures that are yet to be observed.
-        int remaining = seed.getInitialQuantity()- (seed.getSuccessfulGrowth() + seed.getContaminatedCount());
-
-        //exception to make sure today's input doesn't exceed teh remaing cultures
-        if (dto.getSuccessfulToday() + dto.getContaminatedToday() > remaining) {
-            throw new IllegalArgumentException("Exceeds remaining cultures: " + remaining);
+        // New check for zero remaining cultures
+        if (remaining <= 0) {
+            throw new IllegalArgumentException(
+                    "Batch already fully processed. Remaining cultures: " + remaining
+            );
         }
 
+        if (dto.getSuccessfulToday() + dto.getContaminatedToday() > remaining) {
+            throw new IllegalArgumentException(
+                    "Exceeds remaining cultures. Available: " + remaining +
+                            ", Requested: " + (dto.getSuccessfulToday() + dto.getContaminatedToday())
+            );
+        }
 
         //creating and saving today's daily update
         DailyUpdate update = new DailyUpdate();
