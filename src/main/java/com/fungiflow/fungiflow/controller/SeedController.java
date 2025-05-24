@@ -49,7 +49,7 @@ public class SeedController {
     }
 
 
-    //Issue
+
     @PostMapping("/create")
     public Seed createSeed(@RequestBody SeedCreationDTO dto) {
         return mushroomBatchService.createSeedBatch(dto);

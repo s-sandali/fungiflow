@@ -3,8 +3,10 @@ package com.fungiflow.fungiflow.service;
 import com.fungiflow.fungiflow.dto.LabChartDTO;
 import com.fungiflow.fungiflow.dto.SalesChartDTO;
 import com.fungiflow.fungiflow.model.Seed;
+import com.fungiflow.fungiflow.model.Stock;
 import com.fungiflow.fungiflow.repo.DailyUpdateRepository;
 import com.fungiflow.fungiflow.repo.SaleRepo;
+import com.fungiflow.fungiflow.repo.StockRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,11 +19,11 @@ public class AdminDashboardService {
     @Autowired
     private SaleRepo saleRepo;
 
-    /*@Autowired
-    private MaterialRepo materialRepo;*/
-
     @Autowired
     private DailyUpdateRepository dailyUpdateRepository;
+
+    @Autowired
+    private StockRepo stockRepo;
 
     // --- SALES METHODS (untouched) ---
     public List<SalesChartDTO> getSalesChartGroupedData() {
@@ -50,10 +52,10 @@ public class AdminDashboardService {
         return result;
     }
 
-  /*  // --- MATERIALS LOW STOCK ---
-    public List<Material> getLowStockMaterials(int threshold) {
-        return materialRepo.findByQuantityLessThan(threshold);
-    }*/
+    // --- STOCK LOW ALERTS ---
+    public List<Stock> getLowStockStocks(int threshold) {
+        return stockRepo.findByStockLessThan(threshold);
+    }
 
     // --- LAB PERFORMANCE ---
     public List<LabChartDTO> getLabChartData(int year, Seed.MushroomType type) {

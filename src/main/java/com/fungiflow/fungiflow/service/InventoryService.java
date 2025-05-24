@@ -50,13 +50,21 @@ public class InventoryService {
     // ---- Material Request Methods ----
 
     public MaterialRequest createMaterialRequest(MaterialRequestDTO dto) {
+        // Fetch the inventory item by ID from the DTO
+        InventoryItem item = inventoryRepository.findById(dto.getMaterialId())
+                .orElseThrow(() -> new RuntimeException(
+                        "Inventory item not found for ID: " + dto.getMaterialId()
+                ));
+
+        // Create the request using the item's materialType
         MaterialRequest request = new MaterialRequest();
-        request.setMaterialType(MaterialRequest.MaterialType.valueOf(dto.getMaterialType().name()));
+        request.setMaterialType(item.getMaterialType()); // Get type from InventoryItem
         request.setQuantity(dto.getQuantity());
         request.setRequester(dto.getRequester());
         // requestDate and status will be set by default in the entity
         return materialRequestRepository.save(request);
     }
+
 
     public List<MaterialRequest> getAllMaterialRequests() {
         return materialRequestRepository.findAll();

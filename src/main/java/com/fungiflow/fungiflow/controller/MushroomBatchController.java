@@ -18,7 +18,6 @@ public class MushroomBatchController {
     private MushroomBatchService batchService;
 
     // Create seed batch and deduct materials
-    //Issue
     @PostMapping("/create")
     public ResponseEntity<?> createBatch(@RequestBody SeedCreationDTO dto) {
         try {

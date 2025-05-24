@@ -33,10 +33,9 @@ public class MushroomBatchService {
         }
 
         for (MaterialRequestDTO req : requests) {
-            InventoryItem item = inventoryRepository.findByMaterialType(req.getMaterialType());
-            if (item == null || item.getQuantity() < req.getQuantity()) {
-                throw new RuntimeException("Not enough material: " + req.getMaterialType());
-            }
+            InventoryItem item = inventoryRepository.findById(req.getMaterialId())
+                    .orElseThrow(() -> new RuntimeException("Material not found for ID: " + req.getMaterialId()));
+
             item.setQuantity(item.getQuantity() - req.getQuantity());
             inventoryRepository.save(item);
         }

@@ -33,8 +33,9 @@ public class LabManagementService {
         //throwing exception when the seed batch id is not found
         Optional<Seed> optionalSeed = seedRepository.findById(dto.getSeedId());
         if (!optionalSeed.isPresent()) {
-            throw new RuntimeException("Batch not found");
+            throw new RuntimeException("Batch not found for seedId: " + dto.getSeedId());
         }
+
 
         Seed seed = optionalSeed.get();
 
