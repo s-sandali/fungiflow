@@ -12,12 +12,14 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class Stock{
+public class Supplier{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long tid;
+    private Long sid;
+    private String supplier;
     private String material;
-    private Integer stock;
+    private String address;
+    private Integer phone;    
 
     @CreationTimestamp
     @Column(name = "date", nullable = false, updatable = false)

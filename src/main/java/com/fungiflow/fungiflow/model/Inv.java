@@ -7,17 +7,24 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import java.util.Date;
 
-
 @Entity
+@Table(name = "inv")
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class Stock{
+public class Inv {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long tid;
+    private Long nid;
+    
+    @Column(nullable = false)
     private String material;
-    private Integer stock;
+    
+    @Column(nullable = false)
+    private String usageType;
+    
+    @Column(name = "used_stock")
+    private Integer Used_stock;
 
     @CreationTimestamp
     @Column(name = "date", nullable = false, updatable = false)

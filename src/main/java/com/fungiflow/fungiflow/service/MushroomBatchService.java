@@ -23,31 +23,17 @@ public class MushroomBatchService {
     @Autowired
     private InventoryRepository inventoryRepository;
 
-    // Create a new seed batch and deduct raw materials
+    // Create a new seed batch
     @Transactional
     public Seed createSeedBatch(SeedCreationDTO dto) {
-        List<MaterialRequestDTO> requests = dto.getMaterialRequests();
-
-        if (requests == null || requests.isEmpty()) {
-            throw new IllegalArgumentException("Material requests must not be null or empty.");
-        }
-
-        for (MaterialRequestDTO req : requests) {
-            InventoryItem item = inventoryRepository.findById(req.getMaterialId())
-                    .orElseThrow(() -> new RuntimeException("Material not found for ID: " + req.getMaterialId()));
-
-            item.setQuantity(item.getQuantity() - req.getQuantity());
-            inventoryRepository.save(item);
-        }
-
         Seed seed = new Seed();
         seed.setCultivationStartDate(LocalDate.now());
         seed.setType(dto.getType());
         seed.setInitialQuantity(dto.getInitialQuantity());
         seed.setCultivationComplete(false);
-
         return seedRepository.save(seed);
     }
+
 
     // Auto contaminate stale batches (more than 3 days without update and incomplete)
     @Transactional

@@ -7,7 +7,7 @@ public class SeedCreationDTO {
 
     private Seed.MushroomType type;
     private int initialQuantity;
-    private List<MaterialRequestDTO> materialRequests;
+
 
     public Seed.MushroomType getType() {
         return type;
@@ -25,11 +25,5 @@ public class SeedCreationDTO {
         this.initialQuantity = initialQuantity;
     }
 
-    public List<MaterialRequestDTO> getMaterialRequests() {
-        return materialRequests;
-    }
-
-    public void setMaterialRequests(List<MaterialRequestDTO> materialRequests) {
-        this.materialRequests = materialRequests;
-    }
+    
 }
