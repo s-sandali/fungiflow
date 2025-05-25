@@ -1,7 +1,6 @@
 package com.fungiflow.fungiflow.dto;
 
 import com.fungiflow.fungiflow.model.Seed;
-import java.util.List;
 
 public class SeedCreationDTO {
 

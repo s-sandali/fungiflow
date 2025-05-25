@@ -5,7 +5,7 @@ import com.fungiflow.fungiflow.dto.SalesChartDTO;
 import com.fungiflow.fungiflow.model.Seed;
 import com.fungiflow.fungiflow.model.Stock;
 import com.fungiflow.fungiflow.repo.DailyUpdateRepository;
-import com.fungiflow.fungiflow.repo.SaleRepo;
+import com.fungiflow.fungiflow.repo.SalesRepository;
 import com.fungiflow.fungiflow.repo.StockRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +17,7 @@ import java.util.List;
 public class AdminDashboardService {
 
     @Autowired
-    private SaleRepo saleRepo;
+    private SalesRepository salesRepository;
 
     @Autowired
     private DailyUpdateRepository dailyUpdateRepository;
@@ -27,7 +27,7 @@ public class AdminDashboardService {
 
     // --- SALES METHODS (untouched) ---
     public List<SalesChartDTO> getSalesChartGroupedData() {
-        List<Object[]> rawData = saleRepo.getMonthlySalesSummary();
+        List<Object[]> rawData = salesRepository.getMonthlySalesSummary();
 
         String[] months = {
                 "January", "February", "March", "April", "May", "June",

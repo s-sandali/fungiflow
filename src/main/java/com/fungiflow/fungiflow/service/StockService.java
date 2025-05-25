@@ -2,13 +2,14 @@ package com.fungiflow.fungiflow.service;
 
 import com.fungiflow.fungiflow.dto.StockDTO;
 import com.fungiflow.fungiflow.model.Stock;
-import com.fungiflow.fungiflow.repo.StockRepo;
-import com.fungiflow.fungiflow.repo.RawRepo;
 import com.fungiflow.fungiflow.repo.InvRepo;
+import com.fungiflow.fungiflow.repo.RawRepo;
+import com.fungiflow.fungiflow.repo.StockRepo;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service

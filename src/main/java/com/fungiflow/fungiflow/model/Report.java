@@ -1,6 +1,7 @@
 package com.fungiflow.fungiflow.model;
 
 import jakarta.persistence.*;
+
 import java.time.LocalDateTime;
 
 @Entity

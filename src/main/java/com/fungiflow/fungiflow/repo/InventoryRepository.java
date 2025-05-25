@@ -1,8 +1,9 @@
 package com.fungiflow.fungiflow.repo;
 
 import com.fungiflow.fungiflow.model.InventoryItem;
-import com.fungiflow.fungiflow.model.MaterialType; // Import the shared enum
+import com.fungiflow.fungiflow.model.MaterialType;
 import org.springframework.data.jpa.repository.JpaRepository;
+
 import java.util.List;
 
 public interface InventoryRepository extends JpaRepository<InventoryItem, Long> {

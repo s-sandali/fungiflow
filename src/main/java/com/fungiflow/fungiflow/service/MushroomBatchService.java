@@ -1,9 +1,7 @@
 package com.fungiflow.fungiflow.service;
 
 import com.fungiflow.fungiflow.dto.ContaminationStatDTO;
-import com.fungiflow.fungiflow.dto.MaterialRequestDTO;
 import com.fungiflow.fungiflow.dto.SeedCreationDTO;
-import com.fungiflow.fungiflow.model.InventoryItem;
 import com.fungiflow.fungiflow.model.Seed;
 import com.fungiflow.fungiflow.repo.InventoryRepository;
 import com.fungiflow.fungiflow.repo.SeedRepository;
@@ -12,7 +10,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class MushroomBatchService {

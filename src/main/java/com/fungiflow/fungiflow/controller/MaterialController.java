@@ -5,7 +5,6 @@ import com.fungiflow.fungiflow.dto.MaterialDTO;
 import com.fungiflow.fungiflow.service.MaterialService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.List;
 

@@ -2,10 +2,10 @@ package com.fungiflow.fungiflow.service;
 
 import com.fungiflow.fungiflow.model.DailyUpdate;
 import com.fungiflow.fungiflow.model.Report;
-import com.fungiflow.fungiflow.model.Sale;
+import com.fungiflow.fungiflow.model.Sales;
 import com.fungiflow.fungiflow.repo.DailyUpdateRepository;
 import com.fungiflow.fungiflow.repo.ReportRepo;
-import com.fungiflow.fungiflow.repo.SaleRepo;
+import com.fungiflow.fungiflow.repo.SalesRepository;
 import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
@@ -39,7 +39,7 @@ import java.util.stream.Collectors;
 public class ReportService {
 
     @Autowired
-    private SaleRepo saleRepo;
+    private SalesRepository salesRepository;
 
     @Autowired
     private ReportRepo reportRepo;
@@ -53,7 +53,7 @@ public class ReportService {
     // SALES REPORT
     // ------------------------
     public byte[] generateSalesReport(String type, int year, int month, String generatedBy) throws IOException {
-        List<Sale> sales = fetchSalesData(type, year, month);
+        List<Sales> sales = fetchSalesData(type, year, month);
         String fileName = generateSalesFileName(type, year, month);
         String filePath = REPORT_PATH + fileName;
 
@@ -76,7 +76,7 @@ public class ReportService {
             Table table = createSalesTable(sales);
             doc.add(table);
 
-            double total = sales.stream().mapToDouble(Sale::getPrice).sum();
+            double total = sales.stream().mapToDouble(Sales::getPrice).sum();
             doc.add(new Paragraph("\nTotal Sales: Rs. " + total).setBold());
 
             Image chartImage = new Image(ImageDataFactory.create(generateSalesChart(sales)));
@@ -102,22 +102,22 @@ public class ReportService {
                 : "Sales_Report_" + year + ".pdf";
     }
 
-    private List<Sale> fetchSalesData(String type, int year, int month) {
+    private List<Sales> fetchSalesData(String type, int year, int month) {
         if ("monthly".equalsIgnoreCase(type)) {
             YearMonth yearMonth = YearMonth.of(year, month);
             LocalDate start = yearMonth.atDay(1);
             LocalDate end = yearMonth.atEndOfMonth();
-            return saleRepo.findAll().stream()
+            return salesRepository.findAll().stream()
                     .filter(s -> !s.getDate().isBefore(start) && !s.getDate().isAfter(end))
                     .collect(Collectors.toList());
         } else {
-            return saleRepo.findAll().stream()
+            return salesRepository.findAll().stream()
                     .filter(s -> s.getDate().getYear() == year)
                     .collect(Collectors.toList());
         }
     }
 
-    private Table createSalesTable(List<Sale> sales) {
+    private Table createSalesTable(List<Sales> sales) {
         Table table = new Table(UnitValue.createPercentArray(5)).useAllAvailableWidth();
         table.addHeaderCell("Customer");
         table.addHeaderCell("Product");
@@ -125,7 +125,7 @@ public class ReportService {
         table.addHeaderCell("Quantity");
         table.addHeaderCell("Total Price");
 
-        for (Sale s : sales) {
+        for (Sales s : sales) {
             table.addCell(s.getCustomerName());
             table.addCell(s.getProductName());
             table.addCell(String.valueOf(s.getUnitPrice()));
@@ -135,12 +135,12 @@ public class ReportService {
         return table;
     }
 
-    private byte[] generateSalesChart(List<Sale> sales) throws IOException {
+    private byte[] generateSalesChart(List<Sales> sales) throws IOException {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         Map<String, Double> grouped = sales.stream()
                 .collect(Collectors.groupingBy(
-                        Sale::getProductName,
-                        Collectors.summingDouble(Sale::getPrice)
+                        Sales::getProductName,
+                        Collectors.summingDouble(Sales::getPrice)
                 ));
 
         for (Map.Entry<String, Double> entry : grouped.entrySet()) {
